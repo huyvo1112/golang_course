@@ -37,6 +37,36 @@ func TestHealthCheckHandler(t *testing.T) {
 			expectedStatusCode:   http.StatusOK,
 			expectedResponseBody: `{"message":"OK","service":"bookmark-service","instance_id":"123e4567-e89b-12d3-a456-426614174000"}`,
 		},
+		{
+			name: "Health check fails",
+			setupMockService: func(t *testing.T) *mockService.MockHealthCheckService {
+				mockSvc := mockService.NewMockHealthCheckService(t)
+				mockSvc.EXPECT().
+					GetHealthCheck().
+					Return(nil, assert.AnError).
+					Once()
+				return mockSvc
+			},
+			expectedStatusCode:   http.StatusInternalServerError,
+			expectedResponseBody: `{"error":"Internal Server Error"}`,
+		},
+		{
+			name: "Health check successful but returns nil health check",
+			setupMockService: func(t *testing.T) *mockService.MockHealthCheckService {
+				mockSvc := mockService.NewMockHealthCheckService(t)
+				mockSvc.EXPECT().
+					GetHealthCheck().
+					Return(&model.HealthCheck{
+						Message:    "OK",
+						Service:    "bookmark-service",
+						InstanceID: "123e4567-e89b-12d3-a456-426614174000",
+					}, assert.AnError).
+					Once()
+				return mockSvc
+			},
+			expectedStatusCode:   http.StatusInternalServerError,
+			expectedResponseBody: `{"error":"Internal Server Error"}`,
+		},
 	}
 
 	for _, tc := range testcases {
