@@ -1,0 +1,10 @@
+with-expecter: true
+
+packages:
+  github.com/huyvo1112/golang_course/healthcheck_service:
+    interfaces:
+      HealthCheckService:
+        config:
+          dir: mocks/healthcheck_service
+          outpkg: healthcheck_service
+          filename: mock_health_check_service.go
