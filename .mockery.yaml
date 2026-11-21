@@ -1,10 +1,33 @@
 with-expecter: true
 
 packages:
-  github.com/huyvo1112/golang_course/healthcheck_service:
+  github.com/huyvo1112/golang_course/service/healthcheck_service:
     interfaces:
       HealthCheckService:
         config:
           dir: mocks/healthcheck_service
           outpkg: healthcheck_service
           filename: mock_health_check_service.go
+
+  github.com/huyvo1112/golang_course/generator:
+    interfaces:
+      CodeGenerator:
+        config:
+          dir: mocks
+          outpkg: mocks
+          filename: mock_code_generator.go
+
+  github.com/huyvo1112/golang_course/repository:
+    interfaces:
+      URLStorage:
+        config:
+          dir: mocks
+          outpkg: mocks
+          filename: mock_url_storage.go
+  github.com/huyvo1112/golang_course/service/shorten_link_service:
+    interfaces:
+      ShortenLink:
+        config:
+          dir: mocks/shorten_link_service
+          outpkg: shorten_link_service
+          filename: mock_shorten_link_service.go

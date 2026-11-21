@@ -4,7 +4,7 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"github.com/huyvo1112/golang_course/healthcheck_service"
+	"github.com/huyvo1112/golang_course/service/healthcheck_service"
 )
 
 type HealthCheckHandler interface {
@@ -21,6 +21,13 @@ func NewHealthCheckHandler(healthCheckService healthcheck_service.HealthCheckSer
 	}
 }
 
+// @Summary Get Health Check
+// @Description Get Health Check
+// @Tags health-check
+// @Produce application/json
+// @Success 200 {object} model.HealthCheck "Health check successful"
+// @Failure 500 {object} string "Internal Server Error"
+// @Router /health-check [get]
 func (h *healthCheckHandler) HandleHealthCheck(c *gin.Context) {
 	healthCheck, err := h.healthCheckService.GetHealthCheck()
 	if err != nil {
