@@ -1,0 +1,80 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "API for managing bookmark",
+        "title": "Bookmark Management API",
+        "contact": {},
+        "version": "1.0.0"
+    },
+    "basePath": "/",
+    "paths": {
+        "/health-check": {
+            "get": {
+                "description": "Get Health Check",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "health-check"
+                ],
+                "summary": "Get Health Check",
+                "responses": {
+                    "200": {
+                        "description": "Health check successful",
+                        "schema": {
+                            "$ref": "#/definitions/model.HealthCheck"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/links/shorten": {
+            "post": {
+                "description": "Create Shorten Link",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Links"
+                ],
+                "summary": "Create Shorten Link",
+                "responses": {
+                    "200": {
+                        "description": "Shorten URL generated successfully!",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "model.HealthCheck": {
+            "type": "object",
+            "properties": {
+                "instance_id": {
+                    "type": "string"
+                },
+                "message": {
+                    "type": "string"
+                },
+                "service": {
+                    "type": "string"
+                }
+            }
+        }
+    }
+}

@@ -10,9 +10,9 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/huyvo1112/golang_course/healthcheck_handler"
-	"github.com/huyvo1112/golang_course/healthcheck_service"
+	"github.com/huyvo1112/golang_course/handler/healthcheck_handler"
 	"github.com/huyvo1112/golang_course/model"
+	"github.com/huyvo1112/golang_course/service/healthcheck_service"
 )
 
 func TestHealthCheckRoute(t *testing.T) {
@@ -28,7 +28,7 @@ func TestHealthCheckRoute(t *testing.T) {
 	handler := healthcheck_handler.NewHealthCheckHandler(service)
 
 	// 3. Initialize router
-	engine := NewEngine(handler, 8080)
+	engine := NewEngine(handler, 8080, nil)
 
 	// 4. Create HTTP request
 	req := httptest.NewRequest(http.MethodGet, "/health-check", nil)

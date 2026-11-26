@@ -1,0 +1,52 @@
+basePath: /
+definitions:
+  model.HealthCheck:
+    properties:
+      instance_id:
+        type: string
+      message:
+        type: string
+      service:
+        type: string
+    type: object
+info:
+  contact: {}
+  description: API for managing bookmark
+  title: Bookmark Management API
+  version: 1.0.0
+paths:
+  /health-check:
+    get:
+      description: Get Health Check
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Health check successful
+          schema:
+            $ref: '#/definitions/model.HealthCheck'
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      summary: Get Health Check
+      tags:
+      - health-check
+  /v1/links/shorten:
+    post:
+      description: Create Shorten Link
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Shorten URL generated successfully!
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      summary: Create Shorten Link
+      tags:
+      - Links
+swagger: "2.0"
