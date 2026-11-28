@@ -1,6 +1,7 @@
 package shortenlinkhandler
 
 import (
+	"errors"
 	"net/http"
 	"time"
 
@@ -10,6 +11,7 @@ import (
 
 type ShortenLink interface {
 	CreateShortenLink(c *gin.Context)
+	RedirectShortenLink(c *gin.Context)
 }
 
 type shortenLink struct {
@@ -47,4 +49,31 @@ func (s *shortenLink) CreateShortenLink(c *gin.Context) {
 		return
 	}
 	c.JSON(http.StatusOK, gin.H{"code": code, "message": "Shorten URL generated successfully!"})
+}
+
+// Redirect Forward the request to the original url
+// @Tags Links
+// @Accept application/json
+// @Produce application/json
+// @Param code path string true "Shorten code"
+// @Success 302
+// @Router/v1/links/redirect/{code} [get]
+func (s *shortenLink) RedirectShortenLink(c *gin.Context) {
+	code := c.Param("code")
+	if code == "" {
+		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"error": "Invalid input"})
+		return
+	}
+
+	url, err := s.svc.GetURLFromCode(c, code)
+	if err != nil {
+		if errors.Is(err, shortenlinkservice.ErrorDoesNotExist) {
+			c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"error": "Code not exist"})
+			return
+		}
+		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": "Internal Server Error"})
+		return
+	}
+	c.Redirect(http.StatusMovedPermanently, url)
+
 }

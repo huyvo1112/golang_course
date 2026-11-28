@@ -55,4 +55,5 @@ func (e *engine) initializeRoutes(handler healthcheck_handler.HealthCheckHandler
 	e.app.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 	e.app.GET("/health-check", handler.HandleHealthCheck)
 	e.app.POST("v1/links/shorten", shortenLinkHandler.CreateShortenLink)
+	e.app.GET("/v1/links/redirect/:code", shortenLinkHandler.RedirectShortenLink)
 }

@@ -2,6 +2,7 @@ package shortenlinkservice
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"time"
 
@@ -11,8 +12,11 @@ import (
 
 const defaultLength = 7
 
+var ErrorDoesNotExist = errors.New("URL does not exist")
+
 type ShortenLink interface {
 	CreateShortLink(ctx context.Context, url string, expirationTime time.Duration) (string, error)
+	GetURLFromCode(ctx context.Context, code string) (string, error)
 }
 
 type shortenLink struct {
@@ -39,4 +43,12 @@ func (s *shortenLink) CreateShortLink(ctx context.Context, url string, expiratio
 		return "", fmt.Errorf("failed to save shortened URL: %w", err)
 	}
 	return code, nil
+}
+
+func (s *shortenLink) GetURLFromCode(ctx context.Context, code string) (string, error) {
+	res, err := s.r.GetURL(ctx, code)
+	if errors.Is(err, repository.ErrorDoesNotExist) {
+		return "", ErrorDoesNotExist
+	}
+	return res, err
 }

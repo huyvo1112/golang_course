@@ -2,12 +2,13 @@ package repository
 
 import (
 	"context"
+	"errors"
 	"time"
 
 	"github.com/redis/go-redis/v9"
 )
 
-// const expirationTime = 1 * time.Hour // 1 hour
+var ErrorDoesNotExist = errors.New("URL does not exist")
 
 type URLStorage interface {
 	SaveURL(ctx context.Context, key, url string, expirationTime time.Duration) error
@@ -29,6 +30,9 @@ func (r *urlStorage) SaveURL(ctx context.Context, key, url string, expirationTim
 func (r *urlStorage) GetURL(ctx context.Context, key string) (string, error) {
 	url, err := r.c.Get(ctx, key).Result()
 	if err != nil {
+		if errors.Is(err, redis.Nil) {
+			return "", ErrorDoesNotExist
+		}
 		return "", err
 	}
 	return url, nil

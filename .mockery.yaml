@@ -24,6 +24,7 @@ packages:
           dir: mocks
           outpkg: mocks
           filename: mock_url_storage.go
+  
   github.com/huyvo1112/golang_course/service/shorten_link_service:
     interfaces:
       ShortenLink:

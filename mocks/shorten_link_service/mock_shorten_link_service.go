@@ -81,6 +81,63 @@ func (_c *MockShortenLink_CreateShortLink_Call) RunAndReturn(run func(context.Co
 	return _c
 }
 
+// GetURLFromCode provides a mock function with given fields: ctx, code
+func (_m *MockShortenLink) GetURLFromCode(ctx context.Context, code string) (string, error) {
+	ret := _m.Called(ctx, code)
+
+	if len(ret) == 0 {
+		panic("no return value specified for GetURLFromCode")
+	}
+
+	var r0 string
+	var r1 error
+	if rf, ok := ret.Get(0).(func(context.Context, string) (string, error)); ok {
+		return rf(ctx, code)
+	}
+	if rf, ok := ret.Get(0).(func(context.Context, string) string); ok {
+		r0 = rf(ctx, code)
+	} else {
+		r0 = ret.Get(0).(string)
+	}
+
+	if rf, ok := ret.Get(1).(func(context.Context, string) error); ok {
+		r1 = rf(ctx, code)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
+// MockShortenLink_GetURLFromCode_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'GetURLFromCode'
+type MockShortenLink_GetURLFromCode_Call struct {
+	*mock.Call
+}
+
+// GetURLFromCode is a helper method to define mock.On call
+//   - ctx context.Context
+//   - code string
+func (_e *MockShortenLink_Expecter) GetURLFromCode(ctx interface{}, code interface{}) *MockShortenLink_GetURLFromCode_Call {
+	return &MockShortenLink_GetURLFromCode_Call{Call: _e.mock.On("GetURLFromCode", ctx, code)}
+}
+
+func (_c *MockShortenLink_GetURLFromCode_Call) Run(run func(ctx context.Context, code string)) *MockShortenLink_GetURLFromCode_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		run(args[0].(context.Context), args[1].(string))
+	})
+	return _c
+}
+
+func (_c *MockShortenLink_GetURLFromCode_Call) Return(_a0 string, _a1 error) *MockShortenLink_GetURLFromCode_Call {
+	_c.Call.Return(_a0, _a1)
+	return _c
+}
+
+func (_c *MockShortenLink_GetURLFromCode_Call) RunAndReturn(run func(context.Context, string) (string, error)) *MockShortenLink_GetURLFromCode_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // NewMockShortenLink creates a new instance of MockShortenLink. It also registers a testing interface on the mock and a cleanup function to assert the mocks expectations.
 // The first argument is typically a *testing.T value.
 func NewMockShortenLink(t interface {
